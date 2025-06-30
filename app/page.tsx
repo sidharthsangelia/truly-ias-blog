@@ -1,9 +1,14 @@
+import FeaturedPostsSection from "@/components/FeaturedPosts";
+import Hero from "@/components/Hero";
+import HowItWorks from "@/components/HowItWorks";
 
 
 export default function Home() {
   return (
     <main>
-     <h1 className="text-red-500"> Truly IAS Home Page</h1>
+    <Hero/>
+    <FeaturedPostsSection/>
+    <HowItWorks/>
     </main>
   );
 }
