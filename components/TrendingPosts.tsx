@@ -32,7 +32,7 @@ export default function TrendingPosts({ posts }: Props) {
   return (
     <div className="col-span-2 row-span-4 col-start-5 p-4 rounded-xl bg-muted/30">
       <h2 className="text-lg font-semibold mb-4">🔥 Trending Posts</h2>
-      <div className="relative h-[360px] overflow-hidden">
+      <div className="relative h-[560px] overflow-hidden">
         <Marquee pauseOnHover vertical className="[--duration:25s]">
           {posts.map((post) => (
             <TrendingCard

@@ -113,25 +113,7 @@ export default async function AllPostsPage() {
             </div>
           </div>
 
-          {/* Right Panel - Trending */}
-          {/* <div className="col-span-2 row-span-4 col-start-5 p-4 border rounded-lg bg-muted/30">
-            <h2 className="text-lg font-semibold mb-4">🔥 Trending Posts</h2>
-            <ul className="space-y-3 text-sm">
-              {trending.map((post: any) => (
-                <li key={post._id} className="border-b pb-2">
-                  <Link
-                    href={`/posts/${post.slug}`}
-                    className="hover:underline"
-                  >
-                    {post.title}
-                  </Link>
-                  <div className="text-xs text-muted-foreground">
-                    {new Date(post.createdAt).toLocaleDateString()}
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div> */}
+        
 
           <TrendingPosts posts={posts} />
 
