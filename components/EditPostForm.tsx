@@ -17,8 +17,8 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
+import RichTextEditor from '@/components/rich-text-editor'; // <- your editor component
 
 const formSchema = z.object({
   title: z.string().min(1).max(100),
@@ -59,6 +59,11 @@ export default function EditPostForm({ post }: { post: FormValues & { slug: stri
     router.push('/admin');
   };
 
+  const handleContentChange = (value: string) => {
+    form.setValue('content', value);
+    form.trigger('content'); // validate on change
+  };
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -79,11 +84,14 @@ export default function EditPostForm({ post }: { post: FormValues & { slug: stri
         <FormField
           control={form.control}
           name="content"
-          render={({ field }) => (
+          render={() => (
             <FormItem>
               <FormLabel>Content</FormLabel>
               <FormControl>
-                <Textarea className="min-h-[200px]" {...field} />
+                <RichTextEditor
+                  content={form.watch('content')}
+                  onChange={handleContentChange}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

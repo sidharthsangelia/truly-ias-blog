@@ -1,11 +1,12 @@
-'use client';
+"use client";
 
-import { CldUploadWidget } from 'next-cloudinary';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { useRouter } from 'next/navigation';
+import { CldUploadWidget } from "next-cloudinary";
+import { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { useRouter } from "next/navigation";
+
 import {
   Form,
   FormControl,
@@ -13,18 +14,15 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Button } from '@/components/ui/button';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import RichTextEditor from "@/components/rich-text-editor"; // make sure it returns HTML string
 
+// ✅ Schema — no .trim() on HTML content
 const formSchema = z.object({
-  title: z.string().min(1, { message: 'Title is required.' }).max(100).trim(),
-  content: z
-    .string()
-    .min(1, { message: 'Content is required.' })
-    .max(10000)
-    .trim(),
+  title: z.string().min(1, { message: "Title is required." }).max(100),
+  content: z.string().min(1, { message: "Content is required." }),
 });
 
 export default function CreatePostPage() {
@@ -34,33 +32,38 @@ export default function CreatePostPage() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: '',
-      content: '',
+      title: "",
+      content: "",
     },
   });
 
+  // ✅ Sync content from rich text editor
+  const handleContentChange = (value: string) => {
+    form.setValue("content", value); // set value in form state
+    form.trigger("content"); // manually trigger validation
+  };
+
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     try {
-      const res = await fetch('/api/posts/create', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const res = await fetch("/api/posts/create", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...data, imageUrl }),
       });
 
       if (!res.ok) {
         const errorData = await res.json().catch(() => ({}));
-        form.setError('root', {
+        form.setError("root", {
           message:
-            errorData.error ||
-            `Failed to create post (status: ${res.status})`,
+            errorData.error || `Failed to create post (status: ${res.status})`,
         });
         return;
       }
 
-      router.push('/admin');
+      router.push("/admin");
     } catch (err) {
-      form.setError('root', {
-        message: 'Something went wrong. Please try again.',
+      form.setError("root", {
+        message: "Something went wrong. Please try again.",
       });
     }
   };
@@ -72,37 +75,37 @@ export default function CreatePostPage() {
       <CldUploadWidget
         uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET!}
         onSuccess={(result, { widget }) => {
-          console.log("Upload Result:", result); 
-          if (typeof result === 'object' && result !== null && 'info' in result && typeof (result as any).info === 'object' && (result as any).info !== null && 'secure_url' in (result as any).info) {
+          if (
+            typeof result === "object" &&
+            result !== null &&
+            "info" in result &&
+            typeof (result as any).info === "object" &&
+            "secure_url" in (result as any).info
+          ) {
             setImageUrl((result as any).info.secure_url);
           } else {
             setImageUrl(null);
           }
         }}
-        onQueuesEnd={(result, { widget }) => {
-          widget.close();
-        }}
+        onQueuesEnd={(result, { widget }) => widget.close()}
         options={{
-          sources: ['local', 'url', 'camera', 'unsplash'],
+          sources: ["local", "url", "camera", "unsplash"],
           multiple: false,
           maxFiles: 1,
         }}
       >
-        {({ open }) => {
-          const handleOnClick = () => {
-            setImageUrl(null);
-            open();
-          };
-          return (
-            <Button
-              type="button"
-              onClick={handleOnClick}
-              className="mb-4 bg-blue-500 hover:bg-blue-600 text-white"
-            >
-              {imageUrl ? 'Re-upload Image' : 'Upload an Image'}
-            </Button>
-          );
-        }}
+        {({ open }) => (
+          <Button
+            type="button"
+            onClick={() => {
+              setImageUrl(null);
+              open();
+            }}
+            className="mb-4 bg-blue-500 hover:bg-blue-600 text-white"
+          >
+            {imageUrl ? "Re-upload Image" : "Upload an Image"}
+          </Button>
+        )}
       </CldUploadWidget>
 
       {imageUrl && (
@@ -135,20 +138,17 @@ export default function CreatePostPage() {
             )}
           />
 
+          {/* ✅ Rich Text Editor replacing the textarea */}
           <FormField
             control={form.control}
             name="content"
-            render={({ field }) => (
+            render={() => (
               <FormItem>
                 <FormLabel>Content</FormLabel>
-                <FormControl>
-                  <Textarea
-                    placeholder="Enter post content"
-                    className="min-h-[200px]"
-                    {...field}
-                    disabled={form.formState.isSubmitting}
-                  />
-                </FormControl>
+                <RichTextEditor
+                  content={form.watch("content")}
+                  onChange={handleContentChange}
+                />
                 <FormMessage />
               </FormItem>
             )}
@@ -165,7 +165,7 @@ export default function CreatePostPage() {
             disabled={form.formState.isSubmitting}
             className="w-full sm:w-auto"
           >
-            {form.formState.isSubmitting ? 'Creating...' : 'Create Post'}
+            {form.formState.isSubmitting ? "Creating..." : "Create Post"}
           </Button>
         </form>
       </Form>

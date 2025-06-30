@@ -1,8 +1,10 @@
-import dbConnect from '@/lib/dbConnect';
-import Post from '@/models/post';
-import DashboardStats from '@/components/DashboardStats';
-import RecentPostCard from '@/components/RecentPostCard';
-import PostTable from '@/components/PostTable';
+import dbConnect from "@/lib/dbConnect";
+import Post from "@/models/post";
+import DashboardStats from "@/components/DashboardStats";
+import RecentPostCard from "@/components/RecentPostCard";
+import PostTable from "@/components/PostTable";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export default async function AdminDashboardPage() {
   await dbConnect();
@@ -14,8 +16,12 @@ export default async function AdminDashboardPage() {
         {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
           <div>
-            <h1 className="text-4xl font-bold text-gray-900">Admin Dashboard</h1>
-            <p className="text-muted-foreground text-sm mt-1">Manage and monitor your blog posts.</p>
+            <h1 className="text-4xl font-bold text-gray-900">
+              Admin Dashboard
+            </h1>
+            <p className="text-muted-foreground text-sm mt-1">
+              Manage and monitor your blog posts.
+            </p>
           </div>
         </div>
 
@@ -24,10 +30,16 @@ export default async function AdminDashboardPage() {
           totalPosts={posts.length}
           latestPostDate={posts[0]?.createdAt}
         />
-
+        <Button>
+          <Link href="/admin/create">
+            Create New Post
+          </Link>
+        </Button>
         {/* Recent Post */}
         <section>
-          <h2 className="text-xl font-semibold mb-4 text-gray-800">Recent Post</h2>
+          <h2 className="text-xl font-semibold mb-4 text-gray-800">
+            Recent Post
+          </h2>
           <RecentPostCard post={posts[0]} />
         </section>
 

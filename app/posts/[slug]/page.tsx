@@ -2,6 +2,7 @@ import dbConnect from "@/lib/dbConnect";
 import Post from "@/models/post";
 import { notFound } from "next/navigation";
 import PostDetailImage from "@/components/PostDetailImage";
+import RichTextEditor from "@/components/rich-text-editor";
 
 export const dynamic = "force-dynamic";
 
@@ -47,10 +48,7 @@ export default async function PostDetailsPage({ params }: PostPageProps) {
       </p>
 
       {/* Post Content */}
-      <article
-        className="prose prose-neutral dark:prose-invert prose-lg max-w-none"
-        dangerouslySetInnerHTML={{ __html: post.content }}
-      />
+      <RichTextEditor content={post.content || ""} editable={false}/>
     </div>
   );
 }
