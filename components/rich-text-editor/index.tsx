@@ -43,8 +43,8 @@ export default function RichTextEditor({
     editorProps: {
       attributes: {
         class: isEditable
-          ? "min-h-[156px] border rounded-md bg-slate-50 py-2 px-3"
-          : "",
+          ? "min-h-[156px] border rounded-md py-2 px-3 bg-slate-50 text-gray-800 dark:bg-zinc-900 dark:text-gray-100 border-gray-300 dark:border-zinc-700"
+  : "text-gray-800 dark:text-gray-100"
       },
     },
     onUpdate: ({ editor }) => {

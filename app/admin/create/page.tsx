@@ -18,6 +18,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import RichTextEditor from "@/components/rich-text-editor"; // make sure it returns HTML string
+import { ConfettiButton } from "@/components/magicui/confetti";
 
 // ✅ Schema — no .trim() on HTML content
 const formSchema = z.object({
@@ -160,13 +161,15 @@ export default function CreatePostPage() {
             </div>
           )}
 
-          <Button
-            type="submit"
-            disabled={form.formState.isSubmitting}
-            className="w-full sm:w-auto"
-          >
+          <ConfettiButton>
+            <button
+              type="submit"
+              className="w-full sm:w-auto bg-transparent border-none p-0 m-0"
+            >
+              Update Post
+            </button>
             {form.formState.isSubmitting ? "Creating..." : "Create Post"}
-          </Button>
+          </ConfettiButton>
         </form>
       </Form>
     </div>

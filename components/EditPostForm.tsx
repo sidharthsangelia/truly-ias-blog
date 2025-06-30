@@ -19,6 +19,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import RichTextEditor from '@/components/rich-text-editor'; // <- your editor component
+import { ConfettiButton } from './magicui/confetti';
 
 const formSchema = z.object({
   title: z.string().min(1).max(100),
@@ -130,9 +131,11 @@ export default function EditPostForm({ post }: { post: FormValues & { slug: stri
           </p>
         )}
 
-        <Button type="submit" className="w-full sm:w-auto">
-          Update Post
-        </Button>
+        <ConfettiButton >
+          <button type="submit" className="w-full sm:w-auto bg-transparent border-none p-0 m-0">
+            Update Post
+          </button>
+        </ConfettiButton>
       </form>
     </Form>
   );

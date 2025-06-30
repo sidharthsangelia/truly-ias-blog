@@ -16,9 +16,7 @@ import { Toggle } from "../ui/toggle";
 import { Editor } from "@tiptap/react";
 
 export default function MenuBar({ editor }: { editor: Editor | null }) {
-  if (!editor) {
-    return null;
-  }
+  if (!editor) return null;
 
   const Options = [
     {
@@ -84,12 +82,13 @@ export default function MenuBar({ editor }: { editor: Editor | null }) {
   ];
 
   return (
-    <div className="border rounded-md p-1 mb-1 bg-slate-50 space-x-2 z-50">
+    <div className="border rounded-md p-1 mb-1 bg-slate-50 dark:bg-zinc-900 border-gray-200 dark:border-zinc-700 flex flex-wrap gap-1">
       {Options.map((option, index) => (
         <Toggle
           key={index}
           pressed={option.preesed}
           onPressedChange={option.onClick}
+          className="data-[state=on]:bg-primary/90 data-[state=on]:text-white dark:data-[state=on]:bg-primary text-muted-foreground dark:text-gray-300"
         >
           {option.icon}
         </Toggle>
