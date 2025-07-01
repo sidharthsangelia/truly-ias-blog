@@ -13,14 +13,14 @@ interface TrendingPost {
 }
 
 interface Props {
-  posts: any[]; // Accept the raw MongoDB documents
+  posts: any[];
 }
 
 const TrendingCard = ({ title, date, slug }: { title: string; date: string; slug: string }) => (
   <Link
     href={`/posts/${slug}`}
     className={cn(
-      'block w-64 md:w-80 lg:w-72 bg-background border border-border rounded-lg p-4 transition hover:scale-[1.02] hover:shadow-sm',
+      'block w-64 sm:w-72 md:w-80 bg-background border border-border rounded-lg p-4 transition hover:scale-[1.02] hover:shadow-sm',
       'dark:bg-slate-900 dark:border-slate-700'
     )}
   >
@@ -31,9 +31,11 @@ const TrendingCard = ({ title, date, slug }: { title: string; date: string; slug
 
 export default function TrendingPosts({ posts }: Props) {
   return (
-    <div className="col-span-2 row-span-3  col-start-5 p-4 rounded-xl  bg-muted/50 dark:bg-slate-800/50 border border-border dark:border-slate-700">
+    <div className="col-span-2 row-span-3 col-start-5 p-4 rounded-xl bg-muted/50 dark:bg-slate-800/50 border border-border dark:border-slate-700">
       <h2 className="text-lg font-semibold mb-4">🔥 Trending Posts</h2>
-      <div className="relative h-[560px] overflow-hidden">
+
+      {/* Responsive height: mobile = h-64, md+ = h-[560px] */}
+      <div className="relative h-64 md:h-[560px] overflow-hidden">
         <Marquee pauseOnHover vertical className="[--duration:25s]">
           {posts.map((post) => (
             <TrendingCard
@@ -44,8 +46,10 @@ export default function TrendingPosts({ posts }: Props) {
             />
           ))}
         </Marquee>
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-muted/30"></div>
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-muted/30"></div>
+
+        {/* Top and bottom fade effects */}
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-10 bg-gradient-to-b from-muted/30"></div>
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-muted/30"></div>
       </div>
     </div>
   );

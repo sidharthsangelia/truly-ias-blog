@@ -1,8 +1,12 @@
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Quote } from "lucide-react";
-import Link from "next/link";
 
 export default function Testimonials() {
   const testimonials = [
@@ -34,13 +38,13 @@ export default function Testimonials() {
 
   return (
     <section className="w-full py-16 px-4 sm:px-6 md:px-8 border-t">
-      <div className="max-w-5xl   mx-auto">
+      <div className="max-w-5xl mx-auto">
         <h2 className="text-3xl md:text-4xl font-bold text-center text-foreground dark:text-white mb-12">
           What UPSC Aspirants Are Saying
         </h2>
 
         <Carousel
-          className="w-full   pb-4"
+          className="w-full"
           opts={{
             align: "start",
             loop: true,
@@ -52,7 +56,7 @@ export default function Testimonials() {
                 key={index}
                 className="pl-4 basis-full sm:basis-1/2 lg:basis-1/3"
               >
-                <Card className="bg-white/20 dark:bg-slate-800/20     dark:border-gray-700/50 shadow-lg hover:shadow-xl transition-all h-full">
+                <Card className="bg-white/20 dark:bg-slate-800/20 dark:border-gray-700/50 shadow-lg hover:shadow-xl transition-all h-full">
                   <CardContent className="p-8 flex flex-col gap-6 h-full">
                     <Quote className="w-8 h-8 text-indigo-500 dark:text-indigo-400 flex-shrink-0" />
                     <p className="text-base text-muted-foreground dark:text-gray-300 leading-relaxed flex-grow">
@@ -71,11 +75,13 @@ export default function Testimonials() {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="left-0 md:-left-10 bg-indigo-500 hover:bg-indigo-600 dark:bg-indigo-400 dark:hover:bg-indigo-500 text-white w-10 h-10" />
-          <CarouselNext className="right-0 md:-right-10 bg-indigo-500 hover:bg-indigo-600 dark:bg-indigo-400 dark:hover:bg-indigo-500 text-white w-10 h-10" />
-        </Carousel>
 
-         
+          {/* Show arrows only on md and up */}
+          <div className="hidden md:flex justify-center gap-4 mt-6">
+            <CarouselPrevious className="bg-indigo-500 hover:bg-indigo-600 dark:bg-indigo-400 dark:hover:bg-indigo-500 text-white w-10 h-10" />
+            <CarouselNext className="bg-indigo-500 hover:bg-indigo-600 dark:bg-indigo-400 dark:hover:bg-indigo-500 text-white w-10 h-10" />
+          </div>
+        </Carousel>
       </div>
     </section>
   );

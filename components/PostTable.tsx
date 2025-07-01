@@ -10,6 +10,23 @@ import Link from "next/link";
 import { Pencil, Trash2 } from "lucide-react";
 import DeletePostButton from "./DeletePostButton";
 
+// Function to count words in HTML content
+function getWordCount(htmlContent: string): number {
+  if (!htmlContent) return 0;
+  
+  // Remove HTML tags
+  const textContent = htmlContent.replace(/<[^>]+>/g, ' ');
+  
+  // Remove extra whitespace and split by spaces
+  const words = textContent
+    .trim()
+    .replace(/\s+/g, ' ')
+    .split(' ')
+    .filter(word => word.length > 0);
+    
+  return words.length;
+}
+
 export default function PostTable({ posts }: { posts: any[] }) {
   return (
     <div className="overflow-x-auto border border-border rounded-xl bg-background">
@@ -18,6 +35,7 @@ export default function PostTable({ posts }: { posts: any[] }) {
           <TableRow>
             <TableHead className="w-10 text-muted-foreground">#</TableHead>
             <TableHead className="text-muted-foreground">Title</TableHead>
+            <TableHead className="text-muted-foreground">Word Count</TableHead>
             <TableHead className="text-muted-foreground">
               Published At
             </TableHead>
@@ -41,6 +59,11 @@ export default function PostTable({ posts }: { posts: any[] }) {
                 >
                   {post.title}
                 </Link>
+              </TableCell>
+              <TableCell className="text-muted-foreground">
+                <span className="inline-flex items-center px-2 py-1 rounded-md bg-muted text-xs font-medium">
+                  {getWordCount(post.content).toLocaleString()} words
+                </span>
               </TableCell>
               <TableCell>
                 {new Date(post.createdAt).toLocaleDateString(undefined, {

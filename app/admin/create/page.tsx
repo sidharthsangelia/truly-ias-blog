@@ -104,7 +104,7 @@ export default function CreatePostPage() {
             }}
             className="mb-4 bg-blue-500 hover:bg-blue-600 text-white"
           >
-            {imageUrl ? "Re-upload Image" : "Upload an Image"}
+            {imageUrl ? "Re-upload Image" : "Upload a Thumbnail"}
           </Button>
         )}
       </CldUploadWidget>
@@ -166,9 +166,9 @@ export default function CreatePostPage() {
               type="submit"
               className="w-full sm:w-auto bg-transparent border-none p-0 m-0"
             >
-              Update Post
+              
             </button>
-            {form.formState.isSubmitting ? "Creating..." : "Create Post"}
+            {form.formState.isSubmitting ? "Creating..." : "Publish Post"}
           </ConfettiButton>
         </form>
       </Form>

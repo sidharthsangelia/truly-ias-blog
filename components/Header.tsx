@@ -6,8 +6,6 @@ import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggler } from "./ThemeToggler";
-import { Container } from "./Container"; // optional if you want max-w control
-// import logo from '@/public/logo.png' // Add your logo if needed
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -17,7 +15,6 @@ export default function Header() {
       <div className="max-w-7xl mx-auto flex items-center justify-between px-4 py-3 md:py-4">
         {/* Logo */}
         <Link href="/" className="flex items-center space-x-2">
-          {/* <Image src={logo} alt="Truly IAS Logo" width={40} height={40} /> */}
           <span className="text-xl md:text-2xl font-semibold tracking-tight text-foreground">
             Truly IAS
           </span>
@@ -46,14 +43,14 @@ export default function Header() {
 
       {/* Mobile Nav */}
       {menuOpen && (
-        <div className="md:hidden px-4 pb-4 flex flex-col space-y-3 animate-fade-in">
+        <div className="md:hidden px-4 pb-4 pt-2 flex flex-row items-center justify-between gap-4 animate-fade-in">
           <ThemeToggler />
 
           <Button
             asChild
-            className="bg-gradient-to-tr from-indigo-600 to-violet-600 hover:from-indigo-400 hover:to-violet-400 text-white text-sm font-semibold rounded-md w-full justify-center shadow-md hover:shadow-lg hover:scale-[1.01] transition-all"
+            className="bg-gradient-to-tr from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white text-sm font-semibold px-4 py-2 rounded-md shadow-sm hover:shadow-md hover:scale-[1.01] transition-all"
           >
-            <Link href="/posts">Explore Posts</Link>
+            <Link href="/posts">Explore</Link>
           </Button>
         </div>
       )}
