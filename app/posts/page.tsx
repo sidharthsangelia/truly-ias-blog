@@ -11,6 +11,41 @@ import {
 import CloudImage from "@/components/CloudImage";
 import TrendingPosts from "@/components/TrendingPosts";
 import RandomQuote from "@/components/RandomQuote";
+import { Metadata } from "next";
+import Header from "@/components/Header";
+
+// meta data
+
+export const metadata: Metadata = {
+  title: "All posts - UPSC with Truly IAS",
+  description:
+    "Explore UPSC insights, strategies, and success stories on Truly IAS. Find articles and tips to boost your preparation.",
+  openGraph: {
+    title: "All posts – UPSC with Truly IAS",
+    description:
+      "Explore UPSC insights, strategies, and success stories on Truly IAS. Find articles and tips to boost your preparation.",
+    url: "https://truly-ias-blog.vercel.app/posts",
+    type: "website",
+    images: [
+      {
+        url: "https://opengraph.b-cdn.net/production/images/50bcbbd4-f25b-4805-994f-a012e58e6798.png?token=mthDW_Ca7CyIKdxVcZdHYVNF-BrD7EQUogaNqDUy4bA&height=560&width=1200&expires=33287367565",
+        width: 1200,
+        height: 560,
+        alt: "Truly IAS Blog Banner",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "All posts – UPSC with Truly IAS",
+    description:
+      "Explore UPSC insights, strategies, and success stories on Truly IAS. Find articles and tips to boost your preparation.",
+    images: [
+      "https://opengraph.b-cdn.net/production/images/50bcbbd4-f25b-4805-994f-a012e58e6798.png?token=mthDW_Ca7CyIKdxVcZdHYVNF-BrD7EQUogaNqDUy4bA&height=560&width=1200&expires=33287367565",
+    ],
+  },
+};
+
 
 export const dynamic = "force-dynamic";
 
@@ -21,6 +56,9 @@ export default async function AllPostsPage() {
   const [first, second, ...rest] = posts;
 
   return (
+    
+  <>
+  <Header/>
     <div className="max-w-7xl mx-auto px-4 py-10">
       {/* Heading */}
       <h1 className="text-3xl sm:text-4xl font-bold mb-10 text-center text-foreground">
@@ -122,6 +160,7 @@ export default async function AllPostsPage() {
         </div>
       </div>
     </div>
+  </>
   );
 }
 

@@ -6,11 +6,54 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import RecentPostCard from "@/components/RecentPostCard";
+import { Metadata } from "next";
+import { auth, currentUser } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
  
+// meta data
+
+export const metadata: Metadata = {
+  title: "Admin Dashboard - UPSC with Truly IAS",
+  description:
+    "Manage UPSC blog posts with Truly IAS Admin Dashboard. Create, edit, and organize insights and strategies for aspirants",
+  openGraph: {
+    title: "Admin Dashboard – UPSC with Truly IAS",
+    description:
+      "Manage UPSC blog posts with Truly IAS Admin Dashboard. Create, edit, and organize insights and strategies for aspirants",
+    url: "https://truly-ias-blog.vercel.app/posts",
+    type: "website",
+    images: [
+      {
+        url: "https://opengraph.b-cdn.net/production/images/50bcbbd4-f25b-4805-994f-a012e58e6798.png?token=mthDW_Ca7CyIKdxVcZdHYVNF-BrD7EQUogaNqDUy4bA&height=560&width=1200&expires=33287367565",
+        width: 1200,
+        height: 560,
+        alt: "Truly IAS Blog Banner",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "All posts – UPSC with Truly IAS",
+    description:
+      "Explore UPSC insights, strategies, and success stories on Truly IAS. Find articles and tips to boost your preparation.",
+    images: [
+      "https://opengraph.b-cdn.net/production/images/50bcbbd4-f25b-4805-994f-a012e58e6798.png?token=mthDW_Ca7CyIKdxVcZdHYVNF-BrD7EQUogaNqDUy4bA&height=560&width=1200&expires=33287367565",
+    ],
+  },
+};
+
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminDashboardPage() {
+
+ const user = await currentUser()
+
+  // Redirect if not authenticated
+  if (!user) {
+    redirect('/sign-in')
+  }
+
   await dbConnect();
   const posts = await Post.find().sort({ createdAt: -1 }).lean();
 

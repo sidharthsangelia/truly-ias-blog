@@ -19,8 +19,41 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import RichTextEditor from "@/components/rich-text-editor"; // make sure it returns HTML string
 import { ConfettiButton } from "@/components/magicui/confetti";
+import { Metadata } from "next";
+ 
+// meta data
 
-// ✅ Schema — no .trim() on HTML content
+export const metadata: Metadata = {
+  title: "Add New Post - UPSC with Truly IAS",
+  description:
+    "Manage UPSC blog posts with Truly IAS Admin Dashboard. Create, edit, and organize insights and strategies for aspirants",
+  openGraph: {
+    title: "Add New Post – UPSC with Truly IAS",
+    description:
+      "Manage UPSC blog posts with Truly IAS Admin Dashboard. Create, edit, and organize insights and strategies for aspirants",
+    url: "https://truly-ias-blog.vercel.app/posts",
+    type: "website",
+    images: [
+      {
+        url: "https://opengraph.b-cdn.net/production/images/50bcbbd4-f25b-4805-994f-a012e58e6798.png?token=mthDW_Ca7CyIKdxVcZdHYVNF-BrD7EQUogaNqDUy4bA&height=560&width=1200&expires=33287367565",
+        width: 1200,
+        height: 560,
+        alt: "Truly IAS Blog Banner",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "All posts – UPSC with Truly IAS",
+    description:
+      "Explore UPSC insights, strategies, and success stories on Truly IAS. Find articles and tips to boost your preparation.",
+    images: [
+      "https://opengraph.b-cdn.net/production/images/50bcbbd4-f25b-4805-994f-a012e58e6798.png?token=mthDW_Ca7CyIKdxVcZdHYVNF-BrD7EQUogaNqDUy4bA&height=560&width=1200&expires=33287367565",
+    ],
+  },
+};
+
+ 
 const formSchema = z.object({
   title: z.string().min(1, { message: "Title is required." }).max(100),
   content: z.string().min(1, { message: "Content is required." }),
