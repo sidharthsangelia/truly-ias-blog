@@ -5,11 +5,12 @@ import Post from '@/models/post';
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { slug: string } }
+  { params }: { params: Promise<{ slug: string }> }
 ) {
   try {
     await dbConnect();
-    const post = await Post.findOne({ slug: params.slug });
+    const { slug } = await params;
+    const post = await Post.findOne({ slug });
     if (!post) {
       return NextResponse.json({ error: "Post not found" }, { status: 404 });
     }
@@ -20,32 +21,41 @@ export async function GET(
   }
 }
 
-export async function PUT(req: NextRequest, { params }: { params: { slug: string } }) {
-  const { title, content, imageUrl } = await req.json();
+export async function PUT(
+  req: NextRequest, 
+  { params }: { params: Promise<{ slug: string }> }
+) {
+  try {
+    const { title, content, imageUrl } = await req.json();
+    const { slug } = await params;
 
-  await dbConnect();
+    await dbConnect();
 
-  const updated = await Post.findOneAndUpdate(
-    { slug: params.slug },
-    { title, content, imageUrl, updatedAt: new Date() },
-    { new: true }
-  );
+    const updated = await Post.findOneAndUpdate(
+      { slug },
+      { title, content, imageUrl, updatedAt: new Date() },
+      { new: true }
+    );
 
-  if (!updated) {
-    return NextResponse.json({ error: 'Post not found' }, { status: 404 });
+    if (!updated) {
+      return NextResponse.json({ error: 'Post not found' }, { status: 404 });
+    }
+
+    return NextResponse.json(updated);
+  } catch (err) {
+    return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
-
-  return NextResponse.json(updated);
 }
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { slug: string } }
+  { params }: { params: Promise<{ slug: string }> }
 ) {
   try {
     await dbConnect();
+    const { slug } = await params;
 
-    const deleted = await Post.findOneAndDelete({ slug: params.slug });
+    const deleted = await Post.findOneAndDelete({ slug });
     if (!deleted) {
       return NextResponse.json({ error: "Post not found" }, { status: 404 });
     }
