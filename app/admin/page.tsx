@@ -33,11 +33,11 @@ export default async function AdminDashboardPage() {
               Welcome back! Here's a quick look at your blog activity.
             </p>
           </div>
-          <ShinyButton className="px-5 py-2 text-sm font-medium text-white rounded-lg bg-primary shadow-sm hover:shadow-md hover:opacity-90 transition-all">
+          <Button asChild className="px-5 py-2 text-sm font-medium text-white rounded-lg bg-primary shadow-sm hover:shadow-md hover:opacity-90 transition-all">
             <Link href="/admin/create" className="text-white">
               Create New Post
             </Link>
-          </ShinyButton>
+          </Button>
         </div>
 
         {/* Responsive Stats Grid */}
