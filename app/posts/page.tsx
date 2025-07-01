@@ -34,7 +34,7 @@ export default async function AllPostsPage() {
           {/* First Large Post */}
           {first && (
             <Link href={`/posts/${first.slug}`}>
-              <Card className="flex flex-col md:flex-row gap-4 p-4 hover:shadow-lg transition-shadow">
+              <Card className="flex flex-col my-2 md:flex-row gap-4 p-4 hover:shadow-lg transition-shadow">
                 <div className="min-w-full md:min-w-[180px] md:max-w-xs aspect-[4/3] overflow-hidden rounded-md">
                   {first.imageUrl && (
                     <CloudImage src={first.imageUrl} alt={first.title} />
@@ -60,7 +60,7 @@ export default async function AllPostsPage() {
           {/* Second Large Post */}
           {second && (
             <Link href={`/posts/${second.slug}`}>
-              <Card className="flex flex-col md:flex-row gap-4 p-4 hover:shadow-lg transition-shadow">
+              <Card className="flex flex-col my-2 md:flex-row gap-4 p-4 hover:shadow-lg transition-shadow">
                 <div className="min-w-full md:min-w-[180px] md:max-w-xs aspect-[4/3] overflow-hidden rounded-md">
                   {second.imageUrl && (
                     <CloudImage src={second.imageUrl} alt={second.title} />
