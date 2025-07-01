@@ -1,4 +1,3 @@
-
 import dbConnect from "@/lib/dbConnect";
 import Post from "@/models/post";
 import { notFound } from "next/navigation";
@@ -10,9 +9,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 export const dynamic = "force-dynamic";
 
 interface PostPageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 interface PostType {
@@ -27,12 +26,13 @@ interface PostType {
 export default async function PostDetailsPage({ params }: PostPageProps) {
   await dbConnect();
 
-  const post = (await Post.findOne({ slug: params.slug }).lean()) as PostType | null;
+  const { slug } = await params;
+  const post = (await Post.findOne({ slug }).lean()) as PostType | null;
 
   if (!post) notFound();
 
   const trending = await Post.find().sort({ createdAt: -1 }).limit(3).lean();
-  const others = await Post.find({ slug: { $ne: params.slug } }).sort({ createdAt: -1 }).limit(2).lean();
+  const others = await Post.find({ slug: { $ne: slug } }).sort({ createdAt: -1 }).limit(2).lean();
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-10 grid grid-cols-6 gap-8">
