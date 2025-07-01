@@ -47,15 +47,6 @@ Deployment
 
 Vercel - Hosting and deployment platform
 
-Run the development server
-bashnpm run dev
-# or
-yarn dev
-# or
-pnpm dev
-
-Open your browser
-Navigate to http://localhost:3000 to see the application.
 
 🏗️ Project Structure
 truly-ias-blog/
@@ -73,6 +64,8 @@ truly-ias-blog/
 │   └── utils.ts         # Helper functions
 ├── public/              # Static assets
 └── types/               # TypeScript type definitions
+
+
 🔮 Upcoming Features
 Database Enhancements
 
