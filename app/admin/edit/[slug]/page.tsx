@@ -2,9 +2,12 @@ import EditPostForm from '@/components/EditPostForm';
 import dbConnect from '@/lib/dbConnect';
 import Post from '@/models/post';
 
-export default async function EditPostPage({ params }: { params: { slug: string } }) {
+export default async function EditPostPage({ params }: { params: Promise<{ slug: string }> }) {
   await dbConnect();
-  const post = await Post.findOne({ slug: params.slug }).lean();
+  
+  // Await the params Promise
+  const { slug } = await params;
+  const post = await Post.findOne({ slug }).lean();
 
   if (!post) {
     return <div className="p-6">Post not found.</div>;
