@@ -1,19 +1,19 @@
-
-
 import Link from 'next/link';
 import { Marquee } from '@/components/magicui/marquee';
 import { cn } from '@/lib/utils';
 
 interface TrendingPost {
-  id: string;
+  _id: any;
   title: string;
-  createdAt: string;
+  createdAt: string | Date;
   slug: string;
- 
+  content?: string;
+  imageUrl?: string;
+  __v?: number;
 }
 
 interface Props {
-  posts: TrendingPost[];
+  posts: any[]; // Accept the raw MongoDB documents
 }
 
 const TrendingCard = ({ title, date, slug }: { title: string; date: string; slug: string }) => (
@@ -37,7 +37,7 @@ export default function TrendingPosts({ posts }: Props) {
         <Marquee pauseOnHover vertical className="[--duration:25s]">
           {posts.map((post) => (
             <TrendingCard
-              key={post.id}
+              key={post._id}
               title={post.title}
               date={new Date(post.createdAt).toLocaleDateString()}
               slug={post.slug}
