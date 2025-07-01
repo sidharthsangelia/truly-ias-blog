@@ -103,7 +103,7 @@ export default async function FeaturedPostsSection() {
           </div>
         </div>
 
-        <div className="col-span-2 row-span-4 col-start-5 p-4 rounded-xl bg-muted/30">
+        <div className="col-span-2 row-span-3 col-start-5 p-4 rounded-xl bg-muted/30">
           {fourth && (
             <Link href={`/posts/${fourth.slug}`}>
               <Card className=" flex flex-col shadow-md hover:shadow-lg transition-shadow">
@@ -127,7 +127,10 @@ export default async function FeaturedPostsSection() {
             </Link>
           )}
         </div>
+        <div className="col-span-2 row-span-3 col-start-5 row-start-4">
+
         <ReadMoreCTA />
+        </div>
       </div>
     </section>
   );

@@ -31,7 +31,7 @@ export default async function AllPostsPage() {
           No blog posts found.
         </p>
       ) : (
-        <div className="grid grid-cols-6 grid-rows-6 gap-6">
+        <div className="grid grid-cols-6 grid-rows-6 gap-x-6 gap-y-3">
           {/* Left Large Section */}
           <div className="col-span-4 row-span-6 space-y-6">
             {/* First Big Post */}

@@ -23,5 +23,5 @@ export default async function EditPostPage({ params }: Props) {
       <h1 className="text-2xl font-bold mb-4">Edit Post</h1>
       <EditPostForm post={JSON.parse(JSON.stringify(post))} />
     </div>
-  );
+  ); 
 }

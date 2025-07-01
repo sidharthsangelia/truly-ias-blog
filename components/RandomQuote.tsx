@@ -27,7 +27,7 @@ export default async function QuoteBlock() {
   const quote = await fetchRandomQuote();
 
   return (
-    <div className="col-span-2 row-span-2 col-start-5 row-start-5 p-6 rounded-xl border bg-gradient-to-br from-orange-100/60 to-rose-100/50 dark:from-slate-800/70 dark:to-slate-700/60 transition-all shadow-sm relative overflow-hidden">
+    <div className="col-span-2   col-start-5 row-start-4 p-6 rounded-xl border bg-gradient-to-br from-orange-100/60 to-rose-100/50 dark:from-slate-800/70 dark:to-slate-700/60 transition-all shadow-sm relative overflow-hidden">
       <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
         📜 Quote of the Moment
       </h2>

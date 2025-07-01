@@ -1,14 +1,15 @@
-'use client';
+
 
 import Link from 'next/link';
 import { Marquee } from '@/components/magicui/marquee';
 import { cn } from '@/lib/utils';
 
 interface TrendingPost {
-  _id: string;
+  id: string;
   title: string;
   createdAt: string;
   slug: string;
+ 
 }
 
 interface Props {
@@ -30,13 +31,13 @@ const TrendingCard = ({ title, date, slug }: { title: string; date: string; slug
 
 export default function TrendingPosts({ posts }: Props) {
   return (
-    <div className="col-span-2 row-span-4 col-start-5 p-4 rounded-xl bg-muted/30">
+    <div className="col-span-2 row-span-3  col-start-5 p-4 rounded-xl  bg-muted/50 dark:bg-slate-800/50 border border-border dark:border-slate-700">
       <h2 className="text-lg font-semibold mb-4">🔥 Trending Posts</h2>
       <div className="relative h-[560px] overflow-hidden">
         <Marquee pauseOnHover vertical className="[--duration:25s]">
           {posts.map((post) => (
             <TrendingCard
-              key={post._id}
+              key={post.id}
               title={post.title}
               date={new Date(post.createdAt).toLocaleDateString()}
               slug={post.slug}
