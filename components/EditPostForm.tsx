@@ -101,7 +101,7 @@ export default function EditPostForm({ post }: { post: FormValues & { slug: stri
 
         {/* Cloudinary Image Upload */}
         <div>
-          <FormLabel>Thumbnail</FormLabel>
+          <FormLabel className='mb-2'>Thumbnail</FormLabel>
           {imageUrl && (
             <Image
               src={imageUrl}

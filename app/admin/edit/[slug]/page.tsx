@@ -1,16 +1,12 @@
-// app/admin/edit/[slug]/page.tsx
 import EditPostForm from '@/components/EditPostForm';
 import dbConnect from '@/lib/dbConnect';
 import Post from '@/models/post';
 
-
-interface Props {
-  params: {
-    slug: string;
-  };
-}
-
-export default async function EditPostPage({ params }: Props) {
+export default async function EditPostPage({
+  params,
+}: {
+  params: { slug: string };
+}) {
   await dbConnect();
   const post = await Post.findOne({ slug: params.slug }).lean();
 
@@ -23,5 +19,5 @@ export default async function EditPostPage({ params }: Props) {
       <h1 className="text-2xl font-bold mb-4">Edit Post</h1>
       <EditPostForm post={JSON.parse(JSON.stringify(post))} />
     </div>
-  ); 
+  );
 }
