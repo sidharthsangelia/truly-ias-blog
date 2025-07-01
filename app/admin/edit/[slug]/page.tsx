@@ -2,11 +2,7 @@ import EditPostForm from '@/components/EditPostForm';
 import dbConnect from '@/lib/dbConnect';
 import Post from '@/models/post';
 
-export default async function EditPostPage({
-  params,
-}: {
-  params: { slug: string };
-}) {
+export default async function EditPostPage({ params }: { params: { slug: string } }) {
   await dbConnect();
   const post = await Post.findOne({ slug: params.slug }).lean();
 
