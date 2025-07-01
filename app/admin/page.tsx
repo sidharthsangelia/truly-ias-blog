@@ -1,12 +1,14 @@
 import dbConnect from "@/lib/dbConnect";
 import Post from "@/models/post";
-import DashboardStats from "@/components/DashboardStats";
+ 
 import PostTable from "@/components/PostTable";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import RecentPostCard from "@/components/RecentPostCard";
-import { ShinyButton } from "@/components/magicui/shiny-button";
+ 
+
+export const dynamic = "force-dynamic";
 
 export default async function AdminDashboardPage() {
   await dbConnect();
