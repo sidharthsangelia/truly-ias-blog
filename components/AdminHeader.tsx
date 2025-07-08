@@ -47,7 +47,7 @@ export default function AdminHeader() {
             </Button>
             
             <Button variant="ghost" size="sm" asChild>
-              <Link href="/admin/posts" className="text-muted-foreground hover:text-foreground">
+              <Link href="/posts" className="text-muted-foreground hover:text-foreground">
                 Posts
               </Link>
             </Button>
@@ -62,9 +62,9 @@ export default function AdminHeader() {
             variant="outline" 
             size="sm"
             asChild
-            className="text-sm bg-purple-300 font-medium"
+            className="text-sm   font-medium"
           >
-            <Link href="/posts">View Site</Link>
+            <Link href="/">View Site</Link>
           </Button>
 
           <ThemeToggler />
@@ -128,7 +128,7 @@ export default function AdminHeader() {
             </Button>
             
             <Button variant="ghost" size="sm" asChild className="justify-start">
-              <Link href="/admin/posts">
+              <Link href="/posts">
                 Posts
               </Link>
             </Button>
@@ -142,7 +142,7 @@ export default function AdminHeader() {
               variant="outline" 
               size="sm"
               asChild
-              className="flex-1"
+              className="flex-1 bg-purple-300"
             >
               <Link href="/posts">View Site</Link>
             </Button>

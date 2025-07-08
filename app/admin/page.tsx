@@ -7,7 +7,7 @@ import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import RecentPostCard from "@/components/RecentPostCard";
 import { Metadata } from "next";
-import { auth, currentUser } from "@clerk/nextjs/server";
+import {  currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
  
 // meta data
@@ -75,7 +75,7 @@ export default async function AdminDashboardPage() {
               Admin Dashboard
             </h1>
             <p className="text-muted-foreground text-sm mt-1">
-              Welcome back! Here's a quick look at your blog activity.
+              {"Welcome back! Here's a quick look at your blog activity."}
             </p>
           </div>
           <Button asChild className="px-5 py-2 text-sm font-medium text-white rounded-lg bg-primary shadow-sm hover:shadow-md hover:opacity-90 transition-all">
@@ -94,7 +94,7 @@ export default async function AdminDashboardPage() {
             </CardHeader>
             <CardContent className="flex flex-col justify-between h-full space-y-4 text-sm text-muted-foreground">
               <p className="italic">
-                Because what’s a dashboard without numbers and unnecessary precision?
+                {"Because what’s a dashboard without numbers and unnecessary precision?"}
               </p>
 
               <div className="space-y-1 text-foreground">
@@ -106,7 +106,7 @@ export default async function AdminDashboardPage() {
               </div>
 
               <blockquote className="text-xs mt-2 italic text-muted-foreground border-l-2 border-primary pl-3">
-                "You're basically a statistician with a blog — or a poet with a calculator."
+            {"You're basically a statistician with a blog — or a poet with a calculator."}
               </blockquote>
               <p className="text-[13px] text-muted-foreground">
                 Keep typing… the data gods demand more.

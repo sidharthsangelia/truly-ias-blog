@@ -1,7 +1,7 @@
 "use client";
 
 import { CldUploadWidget } from "next-cloudinary";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -17,9 +17,10 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import RichTextEditor from "@/components/rich-text-editor"; // make sure it returns HTML string
+import RichTextEditor from "@/components/rich-text-editor";
 import { ConfettiButton } from "@/components/magicui/confetti";
-import { Metadata } from "next";
+import Image from "next/image";
+
  
 
 
@@ -78,7 +79,7 @@ export default function CreatePostPage() {
 
       <CldUploadWidget
         uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET!}
-        onSuccess={(result, { widget }) => {
+        onSuccess={(result) => {
           if (
             typeof result === "object" &&
             result !== null &&
@@ -114,7 +115,7 @@ export default function CreatePostPage() {
 
       {imageUrl && (
         <div className="mb-4">
-          <img
+          <Image
             src={imageUrl}
             alt="Preview"
             className="max-h-64 rounded shadow"
