@@ -1,5 +1,3 @@
-import dbConnect from "@/lib/dbConnect";
-import Post from "@/models/post";
 import Link from "next/link";
 import {
   Card,
@@ -10,10 +8,14 @@ import {
 } from "@/components/ui/card";
 import CloudImage from "@/components/CloudImage";
 import ReadMoreCTA from "./ReadMoreCTA";
+import prisma from "@/lib/prisma";
 
 export default async function FeaturedPostsSection() {
-  await dbConnect();
-  const posts = await Post.find().sort({ createdAt: -1 }).limit(4).lean();
+  //   const posts = await Post.find().sort({ createdAt: -1 }).limit(4).lean();
+  const posts = await prisma.post.findMany({
+    orderBy: { createdAt: "desc" },
+    take: 4,
+  });
 
   if (!posts.length) return null;
 
@@ -26,37 +28,35 @@ export default async function FeaturedPostsSection() {
       </h2>
 
       {/* Mobile Layout - Simple Stack */}
-      <div className="block lg:hidden space-y-6">
+      <div className="block lg:hidden space-y-8">
         {/* First Post - Mobile */}
         {first && (
-          <Link href={`/posts/${first.slug}`}>
-            <Card className="flex flex-col gap-4 p-4 hover:shadow-lg transition-shadow">
+          <Link className="mt-2" href={`/posts/${first.slug}`}>
+            <Card className="flex flex-col hover:shadow-lg pt-0 transition-shadow mt-4 ">
               {first.imageUrl && (
-                <div className="w-full aspect-[16/9] overflow-hidden rounded-md">
+                <div className="w-full aspect-[16/9] overflow-hidden rounded-t-md">
                   <CloudImage src={first.imageUrl} alt={first.title} />
                 </div>
               )}
-              <div>
-                <CardHeader className="p-0">
-                  <CardTitle className="text-xl mb-2 line-clamp-2">
-                    {first.title}
-                  </CardTitle>
-                  <CardDescription className="text-muted-foreground tracking-wider text-sm mb-3">
-                    {new Date(first.createdAt).toLocaleDateString()}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="text-muted-foreground p-0 text-sm line-clamp-4">
-                  {stripHtml(first.content)}
-                </CardContent>
-              </div>
+              <CardHeader>
+                <CardTitle className="text-lg line-clamp-2">
+                  {first.title}
+                </CardTitle>
+                <CardDescription className="text-sm text-muted-foreground">
+                  {new Date(first.createdAt).toLocaleDateString()}
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="text-sm text-muted-foreground line-clamp-3">
+                {stripHtml(first.content)}
+              </CardContent>
             </Card>
           </Link>
         )}
 
         {/* Second Post - Mobile */}
         {second && (
-          <Link href={`/posts/${second.slug}`}>
-            <Card className="flex flex-col hover:shadow-lg transition-shadow">
+          <Link className="mt-2" href={`/posts/${second.slug}`}>
+            <Card className="flex flex-col hover:shadow-lg pt-0 transition-shadow mt-4 ">
               {second.imageUrl && (
                 <div className="w-full aspect-[16/9] overflow-hidden rounded-t-md">
                   <CloudImage src={second.imageUrl} alt={second.title} />
@@ -80,7 +80,7 @@ export default async function FeaturedPostsSection() {
         {/* Third Post - Mobile */}
         {third && (
           <Link href={`/posts/${third.slug}`}>
-            <Card className="flex flex-col hover:shadow-lg transition-shadow">
+            <Card className="flex flex-col hover:shadow-lg pt-0 transition-shadow mt-4 ">
               {third.imageUrl && (
                 <div className="w-full aspect-[16/9] overflow-hidden rounded-t-md">
                   <CloudImage src={third.imageUrl} alt={third.title} />
@@ -115,13 +115,17 @@ export default async function FeaturedPostsSection() {
             {/* First Big Post */}
             {first && (
               <Link href={`/posts/${first.slug}`}>
-                <Card className="flex my-3 flex-col md:flex-row gap-4 p-4 hover:shadow-lg transition-shadow">
-                  <div className="min-w-[180px] max-w-xs aspect-[4/3] overflow-hidden rounded-md flex-shrink-0">
+                <Card className="flex my-3 flex-col md:flex-row gap-4 py-0 pr-4 hover:shadow-lg transition-shadow">
+                  <div className="min-w-[180px] max-w-xs aspect-[4/3] overflow-hidden flex-shrink-0 relative">
                     {first.imageUrl && (
-                      <CloudImage src={first.imageUrl} alt={first.title} />
+                      <CloudImage
+                        src={first.imageUrl}
+                        alt={first.title}
+                      />
                     )}
                   </div>
-                  <div>
+
+                  <div className=" py-2">
                     <CardHeader className="p-0">
                       <CardTitle className="text-2xl mb-2 line-clamp-2">
                         {first.title}
@@ -142,7 +146,7 @@ export default async function FeaturedPostsSection() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
               {second && (
                 <Link href={`/posts/${second.slug}`}>
-                  <Card className="h-full flex flex-col shadow-md hover:shadow-lg transition-shadow">
+                  <Card className="h-full flex flex-col shadow-md hover:shadow-lg pt-0 transition-shadow">
                     {second.imageUrl && (
                       <div className="w-full h-48 overflow-hidden rounded-t-md">
                         <CloudImage src={second.imageUrl} alt={second.title} />
@@ -164,7 +168,7 @@ export default async function FeaturedPostsSection() {
               )}
               {third && (
                 <Link href={`/posts/${third.slug}`}>
-                  <Card className="h-full flex flex-col shadow-md hover:shadow-lg transition-shadow">
+                  <Card className="h-full flex flex-col pt-0 shadow-md hover:shadow-lg transition-shadow">
                     {third.imageUrl && (
                       <div className="w-full h-48 overflow-hidden rounded-t-md">
                         <CloudImage src={third.imageUrl} alt={third.title} />
@@ -191,7 +195,7 @@ export default async function FeaturedPostsSection() {
           <div className="col-span-2 row-span-3 col-start-5 p-4 rounded-xl bg-muted/30">
             {fourth && (
               <Link href={`/posts/${fourth.slug}`}>
-                <Card className="flex flex-col shadow-md hover:shadow-lg transition-shadow">
+                <Card className="flex flex-col shadow-md hover:shadow-lg pt-0 transition-shadow">
                   {fourth.imageUrl && (
                     <div className="w-full h-48 overflow-hidden rounded-t-md">
                       <CloudImage src={fourth.imageUrl} alt={fourth.title} />
@@ -212,7 +216,7 @@ export default async function FeaturedPostsSection() {
               </Link>
             )}
           </div>
-          
+
           {/* ReadMore CTA - Desktop */}
           <div className="col-span-2 row-span-3 col-start-5 row-start-4">
             <ReadMoreCTA />

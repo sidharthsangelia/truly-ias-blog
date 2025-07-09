@@ -32,7 +32,7 @@ export default function SignInPage() {
             }
           }}
           redirectUrl="/admin"
-          signUpUrl="/sign-in"  
+          signUpUrl="/sign-up"  
         />
 
         {/* Admin Notice */}

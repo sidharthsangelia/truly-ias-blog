@@ -1,5 +1,3 @@
-import dbConnect from "@/lib/dbConnect";
-import Post from "@/models/post";
 import { notFound } from "next/navigation";
 import PostDetailImage from "@/components/PostDetailImage";
 import RichTextEditor from "@/components/rich-text-editor";
@@ -13,6 +11,7 @@ import {
 } from "@/components/ui/card";
 import Head from "next/head";
 import Header from "@/components/Header";
+import prisma from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
 
@@ -32,18 +31,44 @@ interface PostType {
 }
 
 export default async function PostDetailsPage({ params }: PostPageProps) {
-  await dbConnect();
-
   const { slug } = await params;
-  const post = (await Post.findOne({ slug }).lean()) as PostType | null;
+  const post = await prisma.post.findUnique({
+    where: {
+      slug: slug,
+    },
+    include: {
+      author: {
+        select: { name: true },
+      },
+    },
+  });
+
+  // const post = (await Post.findOne({ slug }).lean()) as PostType | null;
 
   if (!post) notFound();
 
-  const trending = await Post.find().sort({ createdAt: -1 }).limit(3).lean();
-  const others = await Post.find({ slug: { $ne: slug } })
-    .sort({ createdAt: -1 })
-    .limit(2)
-    .lean();
+  // const trending = await Post.find().sort({ createdAt: -1 }).limit(3).lean();
+
+  const trending = await prisma.post.findMany({
+    orderBy: { createdAt: "asc" },
+    take: 3,
+  });
+  // const others = await Post.find({ slug: { $ne: slug } })
+  //   .sort({ createdAt: -1 })
+  //   .limit(2)
+  //   .lean();
+  const others = await prisma.post.findMany({
+    where: {
+      slug: {
+        not: slug,
+      },
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+    take: 2,
+    
+  });
 
   const cleanContent = (post.content || "").replace(/<[^>]+>/g, "");
   const metaDescription =
@@ -74,15 +99,15 @@ export default async function PostDetailsPage({ params }: PostPageProps) {
           <h1 className="text-3xl sm:text-4xl font-bold leading-tight tracking-tight mb-2 text-foreground dark:text-gray-200 text-center lg:text-left">
             {post.title}
           </h1>
-          <p className="text-sm text-muted-foreground mb-6 text-center lg:text-left">
-            {new Date(post.createdAt).toLocaleDateString(undefined, {
+          <p className="text-sm text-muted-foreground mb-6 text-center lg:text-left space-x-2">
+           <span> {new Date(post.createdAt).toLocaleDateString(undefined, {
               year: "numeric",
               month: "short",
               day: "numeric",
-            })}
+            })}</span><span>{post.author.name}</span>
           </p>
 
-          <div className="rounded-xl px-4 sm:px-6 py-8 bg-neutral-50 dark:bg-background text-foreground dark:text-gray-200 transition-colors">
+          <div className="rounded-xl   py-8   dark:bg-background text-foreground dark:text-gray-200 transition-colors">
             <RichTextEditor content={post.content || ""} editable={false} />
           </div>
 
@@ -92,9 +117,9 @@ export default async function PostDetailsPage({ params }: PostPageProps) {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {others.map((p: any) => (
                 <Link key={p._id} href={`/posts/${p.slug}`}>
-                  <Card className="hover:shadow-lg transition-shadow h-full flex flex-col">
+                  <Card className="hover:shadow-lg transition-shadow h-full flex flex-col pt-0">
                     {p.imageUrl && (
-                      <div className="w-full h-48 overflow-hidden rounded-t-md">
+                      <div className="w-full h-58 overflow-hidden rounded-t-md">
                         <img
                           src={p.imageUrl}
                           alt={p.title}
@@ -103,7 +128,7 @@ export default async function PostDetailsPage({ params }: PostPageProps) {
                       </div>
                     )}
                     <CardHeader>
-                      <CardTitle className="text-lg line-clamp-1">
+                      <CardTitle className="text-lg line-clamp-2">
                         {p.title}
                       </CardTitle>
                       <CardDescription className="text-sm text-muted-foreground">

@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { Trash2 } from 'lucide-react';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Trash2 } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogTrigger,
@@ -13,8 +13,9 @@ import {
   AlertDialogDescription,
   AlertDialogCancel,
   AlertDialogAction,
-} from '@/components/ui/alert-dialog';
-import { Button } from '@/components/ui/button';
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
+import deletePost from "@/actions/posts/deletePost";
 
 export default function DeletePostButton({ slug }: { slug: string }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -23,12 +24,11 @@ export default function DeletePostButton({ slug }: { slug: string }) {
   const handleDelete = async () => {
     setIsLoading(true);
     try {
-      const res = await fetch(`/api/posts/${slug}`, { method: 'DELETE' });
+      await deletePost({ slug });
 
-      if (!res.ok) throw new Error('Delete failed');
       router.refresh(); // Refresh to reflect deletion
     } catch (err) {
-      alert('Failed to delete post.');
+      alert("Failed to delete post.");
     } finally {
       setIsLoading(false);
     }
@@ -37,7 +37,11 @@ export default function DeletePostButton({ slug }: { slug: string }) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="ghost" size="icon" className="text-red-600 hover:text-red-800">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="text-red-600 hover:text-red-800"
+        >
           <Trash2 className="w-4 h-4" />
         </Button>
       </AlertDialogTrigger>
@@ -46,7 +50,8 @@ export default function DeletePostButton({ slug }: { slug: string }) {
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete the post and remove it from the database.
+            This action cannot be undone. This will permanently delete the post
+            and remove it from the database.
           </AlertDialogDescription>
         </AlertDialogHeader>
 
@@ -57,7 +62,7 @@ export default function DeletePostButton({ slug }: { slug: string }) {
             onClick={handleDelete}
             className="bg-red-600 hover:bg-red-700"
           >
-            {isLoading ? 'Deleting...' : 'Delete Post'}
+            {isLoading ? "Deleting..." : "Delete Post"}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

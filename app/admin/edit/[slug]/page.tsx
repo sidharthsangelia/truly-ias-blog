@@ -1,6 +1,5 @@
-import EditPostForm from '@/components/EditPostForm';
-import dbConnect from '@/lib/dbConnect';
-import Post from '@/models/post';
+import EditPostForm from "@/components/Form/EditPostForm";
+import prisma from "@/lib/prisma";
 import { Metadata } from "next";
  
 // meta data
@@ -37,11 +36,17 @@ export const metadata: Metadata = {
 
 
 export default async function EditPostPage({ params }: { params: Promise<{ slug: string }> }) {
-  await dbConnect();
+  
   
   // Await the params Promise
   const { slug } = await params;
-  const post = await Post.findOne({ slug }).lean();
+  const post = await prisma.post.findUnique({
+    where:{
+      slug: slug
+    }
+  });
+
+  const categories = await prisma.category.findMany();
 
   if (!post) {
     return <div className="p-6">Post not found.</div>;
@@ -50,7 +55,10 @@ export default async function EditPostPage({ params }: { params: Promise<{ slug:
   return (
     <div className="max-w-3xl mx-auto p-6">
       <h1 className="text-2xl font-bold mb-4">Edit Post</h1>
-      <EditPostForm post={JSON.parse(JSON.stringify(post))} />
+      <EditPostForm
+        post={JSON.parse(JSON.stringify(post))}
+        categories={JSON.parse(JSON.stringify(categories))}
+      />
     </div>
   );
 }
