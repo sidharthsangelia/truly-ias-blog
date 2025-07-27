@@ -48,7 +48,7 @@ export default function PostTable({ posts }: { posts: any[] }) {
         <TableBody>
           {posts.map((post, index) => (
             <TableRow
-              key={post._id}
+              key={post.id}
               className="hover:bg-muted/50 transition-colors"
             >
               <TableCell className="font-medium">{index + 1}</TableCell>

@@ -54,6 +54,28 @@ export default async function AdminDashboardPage() {
   const posts = await prisma.post.findMany({
     orderBy: { createdAt: "desc" },
   });
+
+  const latestPost = posts[0] || null
+  const totalPosts = posts.length
+
+  // 3. Total Words
+  const totalWords = posts.reduce((acc, post) => {
+    return acc + (post.content?.split(/\s+/).filter(Boolean).length || 0)
+  }, 0)
+
+  // 4. Average Words per Post
+  const avgWords = totalPosts > 0 ? Math.round(totalWords / totalPosts) : 0
+
+  // 5. Last Post Date
+  const lastPostDate = posts.reduce((latest, post) => {
+    return latest > post.createdAt ? latest : post.createdAt
+  }, new Date(0))
+
+  // 6. Word Density (Assuming you want avg words per 100 characters)
+  const totalCharacters = posts.reduce((acc, post) => acc + (post.content?.length || 0), 0)
+  const wordDensity = totalCharacters > 0 ? (totalWords / totalCharacters).toFixed(2) : '0.00'
+
+
   return (
     <div className="min-h-screen bg-muted/40 dark:bg-background px-6 py-10">
       <div className="max-w-7xl mx-auto space-y-10">
@@ -116,7 +138,7 @@ export default async function AdminDashboardPage() {
               <CardTitle className="text-lg">📝 Total Words</CardTitle>
             </CardHeader>
             <CardContent>
-              {/* <p className="text-2xl font-semibold text-foreground">{totalWords}</p> */}
+              <p className="text-2xl font-semibold text-foreground">{totalWords}</p>
               <p className="text-sm text-muted-foreground">Across all posts</p>
             </CardContent>
           </Card>
@@ -127,12 +149,12 @@ export default async function AdminDashboardPage() {
               <CardTitle className="text-lg">📅 Last Post</CardTitle>
             </CardHeader>
             <CardContent>
-              {/* <p className="text-base font-medium text-foreground">
+              <p className="text-base font-medium text-foreground">
                 {new Date(latestPost?.createdAt).toLocaleDateString()}
               </p>
               <p className="text-sm text-muted-foreground line-clamp-1">
                 {latestPost?.title || "No post yet"}
-              </p> */}
+              </p>
             </CardContent>
           </Card>
 
@@ -142,7 +164,7 @@ export default async function AdminDashboardPage() {
               <CardTitle className="text-lg">⏳ Avg. Words/Post</CardTitle>
             </CardHeader>
             <CardContent>
-              {/* <p className="text-3xl font-bold text-foreground">{avgWords}</p> */}
+              <p className="text-3xl font-bold text-foreground">{avgWords}</p>
               <p className="text-sm text-muted-foreground">Word density</p>
             </CardContent>
           </Card>
@@ -155,7 +177,7 @@ export default async function AdminDashboardPage() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              {/* <div className="text-4xl font-extrabold text-primary">{totalPosts}</div> */}
+              <div className="text-4xl font-extrabold text-primary">{totalPosts}</div>
               <p className="text-sm text-muted-foreground">
                 Published till now
               </p>
